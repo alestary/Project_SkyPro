@@ -6,7 +6,7 @@ def get_mask_card_number(card_number: str) -> str:
 
 
 def get_mask_account(account_number: str) -> str:
-    """ Функция принимает на вход номер счета и возвращает его маску.
+    """Функция принимает на вход номер счета и возвращает его маску.
     Номер счета замаскирован и отображается в формате **XXXX, где X — это цифра номера."""
     masked_account_number = f"**{account_number[-4:]}"
     return masked_account_number
