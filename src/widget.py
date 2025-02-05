@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def mask_account_card(name, number: str):
+def mask_account_card(name: str, number: str) -> str:
     if name.lower().startswith("счет"):
         """Маскировка счёта: оставляем только 4 последние цифры"""
         account_card = "**" + number[-4:]
@@ -11,7 +11,7 @@ def mask_account_card(name, number: str):
     return account_card
 
 
-def get_date(date: str):
+def get_date(date: str) -> str:
     """Переформатирование даты"""
     date_obj = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f")
     return date_obj.strftime("%d.%m.%Y")

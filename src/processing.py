@@ -1,4 +1,8 @@
-def filter_by_state(data_list, state='EXECUTED'):
+from datetime import datetime
+from typing import List
+
+
+def filter_by_state(data_list: List, state: str='EXECUTED') -> List:
     """
     Фильтрует список словарей по значению ключа 'state'.
 
@@ -8,9 +12,8 @@ def filter_by_state(data_list, state='EXECUTED'):
     """
     return [item for item in data_list if item.get('state') == state]
 
-from datetime import datetime
 
-def sort_by_date(data_list, descending=True):
+def sort_by_date(data_list: List, descending: bool = True) -> List:
     """
     Сортирует список словарей по дате.
 
