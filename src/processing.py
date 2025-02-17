@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 
 
-def filter_by_state(data_list: List, state: str='EXECUTED') -> List:
+def filter_by_state(data_list: List, state: str = "EXECUTED") -> List:
     """
     Фильтрует список словарей по значению ключа 'state'.
 
@@ -10,7 +10,7 @@ def filter_by_state(data_list: List, state: str='EXECUTED') -> List:
     :param state: Значение для фильтрации (по умолчанию 'EXECUTED').
     :return: Отфильтрованный список словарей.
     """
-    return [item for item in data_list if item.get('state') == state]
+    return [item for item in data_list if item.get("state") == state]
 
 
 def sort_by_date(data_list: List, descending: bool = True) -> List:
@@ -22,7 +22,5 @@ def sort_by_date(data_list: List, descending: bool = True) -> List:
     :return: Отсортированный список словарей.
     """
     return sorted(
-        data_list,
-        key=lambda x: datetime.strptime(x.get('date', '0001-01-01'), '%Y-%m-%d'),
-        reverse=descending
+        data_list, key=lambda x: datetime.strptime(x.get("date", "0001-01-01"), "%Y-%m-%d"), reverse=descending
     )
