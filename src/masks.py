@@ -2,10 +2,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-file_handler = logging.FileHandler("../logs/masks.log",  encoding="utf-8")
+file_handler = logging.FileHandler("../logs/masks.log", encoding="utf-8")
 
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
+
 
 def get_mask_card_number(card_number: str) -> str:
     """Функция принимает на вход номер карты и возвращает ее маску.
@@ -36,6 +37,3 @@ def get_mask_account(account_number: str) -> str:
     else:
         logger.error("Пользовтель ввел некорректный номер карты")
         raise ValueError("Некорректный номер карты: ожидалось 16 цифр")
-
-
-print(get_mask_card_number("12345678910111213"))
