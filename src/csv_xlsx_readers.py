@@ -3,7 +3,7 @@ import pandas as pd
 
 def read_csv_transactions(file_path):
     """Считывает финансовые операции из CSV-файла"""
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, delimiter=";")
     transactions = df.to_dict(orient="records")
     return transactions
 
