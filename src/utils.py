@@ -4,7 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-file_handler = logging.FileHandler("../logs/utils.log", encoding="utf-8")
+file_handler = logging.FileHandler("./logs/utils.log", encoding="utf-8")
 
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)

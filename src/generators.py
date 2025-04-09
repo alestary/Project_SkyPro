@@ -49,7 +49,7 @@ def card_number_generator(start: int, stop: int) -> Generator:
     """Генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX"""
     for number in range(start, stop + 1):
         yield (
-            f"{number:016}"[:4] + " " + f"{number:016}"[4:8] + " " + f"{number:016}"[8:12] + " " f"{number:016}"[12:]
+            f"{number:016}"[:4] + " " + f"{number:016}"[4:8] + " " + f"{number:016}"[8:12] + " " + f"{number:016}"[12:]
         )
 
 
