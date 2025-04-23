@@ -1,10 +1,6 @@
 from typing import Dict, List
 from src.csv_xlsx_readers import read_excel_transactions
-
-from src.utils import (
-    filter_transactions_by_description,
-    count_transactions_by_category,
-)
+from src.utils import count_transactions_by_category, filter_transactions_by_description
 from src.widget import get_date, mask_account_card
 
 
@@ -19,9 +15,7 @@ def format_transaction(transaction: Dict) -> str:
     # Форматируем дату
     date_str = transaction.get("date", "")
     formatted_date = get_date(date_str)  # Используем get_date из widget.py
-
     description = transaction.get("description", "Описание отсутствует")
-
 
     from_account = transaction.get("from", "")
     to_account = transaction.get("to", "")

@@ -26,6 +26,7 @@ def sort_by_date(data_list: List, descending: bool = True) -> List:
         data_list, key=lambda x: datetime.strptime(x.get("date", "0001-01-01"), "%Y-%m-%d"), reverse=descending
     )
 
+
 def get_transactions_by_search_request(data, search_request: str):
     result = []
     for transaction in data:

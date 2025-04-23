@@ -1,8 +1,8 @@
 import json
 import logging
-from typing import Optional
 import re
-from typing import Dict, List
+from typing import Dict, List, Optional
+
 logger = logging.getLogger(__name__)
 
 file_handler = logging.FileHandler("./logs/utils.log", encoding="utf-8")
@@ -28,6 +28,7 @@ def get_data(path) -> Optional[list[dict]]:
     except (FileNotFoundError, json.JSONDecodeError):
         logger.error("Файл не найден")
         return []
+
 
 def filter_transactions_by_description(transactions: List[Dict], search_string: str) -> List[Dict]:
     """
