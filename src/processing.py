@@ -28,7 +28,17 @@ def sort_by_date(data_list: List, descending: bool = True) -> List:
 
 
 def get_transactions_by_search_request(data, search_request: str):
+    pattern = re.compile(search_request, flags=re.IGNORECASE)
     result = []
     for transaction in data:
-        result.append(re.search(transaction.get("description"), search_request).group())
+        if pattern.search(transaction.get("description")) is not None:
+            result.append(pattern.search(transaction.get("description")).string)
+
     return result
+
+print(get_transactions_by_search_request([
+    {"description": "something"},
+    {"description": "let us go"},
+    {"description": "bank account"},
+    {"description": "test"},
+], "h"))

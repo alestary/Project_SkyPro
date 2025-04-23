@@ -1,6 +1,10 @@
-from typing import Dict, List
-from src.csv_xlsx_readers import read_excel_transactions
-from src.utils import count_transactions_by_category, filter_transactions_by_description
+from typing import Dict
+
+from src.csv_xlsx_readers import read_json_file, read_csv_transactions, read_excel_transactions
+from src.utils import (
+    filter_transactions_by_description,
+    count_transactions_by_category,
+)
 from src.widget import get_date, mask_account_card
 
 
@@ -15,7 +19,9 @@ def format_transaction(transaction: Dict) -> str:
     # Форматируем дату
     date_str = transaction.get("date", "")
     formatted_date = get_date(date_str)  # Используем get_date из widget.py
+
     description = transaction.get("description", "Описание отсутствует")
+
 
     from_account = transaction.get("from", "")
     to_account = transaction.get("to", "")
@@ -28,6 +34,15 @@ def format_transaction(transaction: Dict) -> str:
         from_to = to_account
     else:
         from_to = "Не указан"
+
+    try:
+        amount_rub = get_transaction_amount_rub(transaction)
+        currency_code = transaction.get("operationAmount", {}).get("currency", {}).get("code", "RUB")
+    except (ValueError, TypeError):
+        amount_rub = transaction.get("operationAmount", {}).get("amount", 0)
+        currency_code = "RUB"
+
+    return f"{formatted_date} {description}\n{from_to}\nСумма: {amount_rub:.0f} {currency_code}\n"
 
 
 def main():
@@ -43,20 +58,22 @@ def main():
     file_choice = input().strip()
     file_path = ""
     if file_choice == "1":
-        file_path = "data/transactions.json"
+        file_path = "./data/operations.json"
         print("Для обработки выбран JSON-файл.")
+        transactions = read_json_file(file_path)
     elif file_choice == "2":
-        file_path = "data/transactions.csv"
+        file_path = "./data/transactions.csv"
         print("Для обработки выбран CSV-файл.")
+        transactions = read_csv_transactions(file_path)
     elif file_choice == "3":
-        file_path = "data/transactions_excel.xlsx"
+        file_path = "./data/transactions_excel.xlsx"
         print("Для обработки выбран XLSX-файл.")
+        transactions = read_excel_transactions(file_path)
     else:
         print("Неверный выбор. Завершение программы.")
         return
 
     # Загружаем транзакции
-    transactions = read_excel_transactions(file_path)
     if not transactions:
         print("Не удалось загрузить транзакции. Завершение программы.")
         return
