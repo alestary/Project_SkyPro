@@ -84,3 +84,4 @@ def count_transactions_by_category(transactions: List[Dict], categories: List[st
 
     logger.info(f"Результат подсчёта по категориям: {category_counts}")
     return category_counts
+

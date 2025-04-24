@@ -6,7 +6,7 @@ from src.utils import (
     count_transactions_by_category,
 )
 from src.widget import get_date, mask_account_card
-
+from src.external_api import get_amount_rub
 
 def format_transaction(transaction: Dict) -> str:
     """
@@ -34,9 +34,8 @@ def format_transaction(transaction: Dict) -> str:
         from_to = to_account
     else:
         from_to = "Не указан"
-
     try:
-        amount_rub = get_transaction_amount_rub(transaction)
+        amount_rub = get_amount_rub(transaction)
         currency_code = transaction.get("operationAmount", {}).get("currency", {}).get("code", "RUB")
     except (ValueError, TypeError):
         amount_rub = transaction.get("operationAmount", {}).get("amount", 0)
