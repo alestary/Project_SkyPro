@@ -4,7 +4,7 @@ from src.widget import get_date, mask_account_card
 
 
 def test_mask_account_card() -> None:
-    assert mask_account_card("Счет 1222222234565433") == "**5433"
+    assert mask_account_card("Счет 12222222345654333333") == "**3333"
     assert mask_account_card("Visa Platinum 1222222234565433") == "1222 22** **** 5433"
     assert mask_account_card("Maestro 1222222234565433") == "1222 22** **** 5433"
 

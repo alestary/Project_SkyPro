@@ -25,7 +25,7 @@ def test_invalid_card_number(invalid_input: str) -> None:
 
 
 def test_get_mask_account() -> None:
-    assert get_mask_account("1234567891011223") == "**1223"
+    assert get_mask_account("12345678910111210000") == "**0000"
 
 
 @pytest.mark.parametrize(

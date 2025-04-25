@@ -1,47 +1,22 @@
-from typing import Dict
-
 from src.csv_xlsx_readers import read_json_file, read_csv_transactions, read_excel_transactions
 from src.utils import (
     filter_transactions_by_description,
     count_transactions_by_category,
 )
-from src.widget import get_date, mask_account_card
-from src.external_api import get_amount_rub
 
-def format_transaction(transaction: Dict) -> str:
-    """
-    Форматирует транзакцию для вывода в консоль.
-    Args:
-        transaction (Dict): Словарь с данными о транзакции.
-    Returns:
-        str: Отформатированная строка с информацией о транзакции.
-    """
-    # Форматируем дату
-    date_str = transaction.get("date", "")
-    formatted_date = get_date(date_str)  # Используем get_date из widget.py
-
+def format_transaction(transaction):
+    """Выводит информацию о транзакции."""
+    date = transaction.get("date", "Дата не указана")
     description = transaction.get("description", "Описание отсутствует")
+    amount = transaction.get("amount", "Сумма не указана")
 
-
-    from_account = transaction.get("from", "")
-    to_account = transaction.get("to", "")
-    if from_account and to_account:
-        from_account = mask_account_card(from_account)  # Маскируем с помощью mask_account_card
-        to_account = mask_account_card(to_account)
-        from_to = f"{from_account} -> {to_account}"
-    elif to_account:
-        to_account = mask_account_card(to_account)
-        from_to = to_account
+    if transaction.get("operationAmount"):
+        currency = transaction.get("operationAmount").get("currency").get("code")
+        amount = transaction.get("operationAmount").get("amount")
     else:
-        from_to = "Не указан"
-    try:
-        amount_rub = get_amount_rub(transaction)
-        currency_code = transaction.get("operationAmount", {}).get("currency", {}).get("code", "RUB")
-    except (ValueError, TypeError):
-        amount_rub = transaction.get("operationAmount", {}).get("amount", 0)
-        currency_code = "RUB"
-
-    return f"{formatted_date} {description}\n{from_to}\nСумма: {amount_rub:.0f} {currency_code}\n"
+        currency = transaction.get("currency_code")
+    return f"""{date}\n{description}
+Сумма: {amount} {currency}\n"""
 
 
 def main():
@@ -85,7 +60,7 @@ def main():
         status = input().strip().upper()
         if status in available_statuses:
             print(f'Операции отфильтрованы по статусу "{status}"')
-            transactions = [tx for tx in transactions if tx.get("state", "").upper() == status]
+            transactions = [tx for tx in transactions if tx.get("state", "") == status]
             break
         else:
             print(f'Статус операции "{status}" недоступен.')
@@ -102,10 +77,16 @@ def main():
     print("Выводить только рублевые транзакции? Да/Нет")
     rub_only = input().strip().lower()
     if rub_only == "да":
-        transactions = [
-            tx for tx in transactions
-            if tx.get("operationAmount", {}).get("currency", {}).get("code", "") == "RUB"
-        ]
+        if file_choice == "1":
+            transactions = [
+                tx for tx in transactions
+                if tx.get("operationAmount", {}).get("currency", {}).get("code", "") == "RUB"
+            ]
+        else:
+            transactions = [
+                tx for tx in transactions
+                if tx.get("currency_code", {}) == "RUB"
+            ]
 
     print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
     filter_by_desc = input().strip().lower()

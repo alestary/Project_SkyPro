@@ -25,15 +25,14 @@ def get_mask_card_number(card_number: str) -> str:
 
 
 def get_mask_account(account_number: str) -> str:
-
     if not isinstance(account_number, str) or not account_number.isdigit():
         logger.error("Пользователь ввел некорректные данные")
         raise ValueError("Некорректный ввод: номер карты должен быть строкой из цифр")
 
-    if len(account_number) == 16:
+    if len(account_number) == 20:
         logger.debug("Карта соответствует")
         masked_account_number = f"**{account_number[-4:]}"
         return masked_account_number
     else:
         logger.error("Пользовтель ввел некорректный номер карты")
-        raise ValueError("Некорректный номер карты: ожидалось 16 цифр")
+        raise ValueError("Некорректный номер карты: ожидалось 20 цифр")

@@ -35,10 +35,3 @@ def get_transactions_by_search_request(data, search_request: str):
             result.append(pattern.search(transaction.get("description")).string)
 
     return result
-
-print(get_transactions_by_search_request([
-    {"description": "something"},
-    {"description": "let us go"},
-    {"description": "bank account"},
-    {"description": "test"},
-], "h"))
